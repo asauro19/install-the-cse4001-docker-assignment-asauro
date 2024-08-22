@@ -4,7 +4,7 @@
 
 In this assignment, you will install OS/161 on your personal computer so you can have it ready for the following OS/161 assignments. 
 
-- [Installing OS/161](https://fit.instructure.com/courses/639948/pages/installing-os-slash-161)
+- [Installing OS/161](https://htmlpreview.github.io/?https://github.com/eraldoribeiro/UsingCSE4001_OS161/blob/main/RunningOS161_DockerDesktop.html)
 
 Make a small change in the kernel. Re-build and boot the kernel so it shows the change that has been made. To make the change, search for the string "Put-your-group-name-here" and replace it with your name. 
 
