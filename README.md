@@ -10,13 +10,13 @@ Make a small change in the kernel. Re-build and boot the kernel so it shows the 
 
 ### Deliverables: 
 
-- Edit this README.md (markdown file) so it shows a screenshot of your OS/161 running showing the new booting sequence with your name on it. The screenshot file is an image, e.g., png, jpg, gif. The image file must also be uploaded in the without repository.
+- Edit this README.md (markdown file) so it shows a screenshot of your OS/161 running showing the new booting sequence with your name on it. The screenshot file is an image, e.g., png, jpg, gif. The image file must also be uploaded in the repository.
   
-**Note**: I just want to quickly see that you completed the tasks asked by the assignment. For example, if everything fits in your screen, you can take a screenshot of the result of all terminals and debugging script side by side as they appear on your computer. 
+**Note**: My goal is to quickly see that you completed the tasks asked by the assignment. For example, if everything fits in your screen, you can take a screenshot of the result of all terminals and debugging script side by side as they appear on your computer. 
 
 $${\color{lightgreen}{\text{Add screenshots here!!}}}$$
 
-The following image is just an example of how to add an image in markdown. 
+The following image is just an example of how to add an image in markdown. See the raw format of this markdown file.
 To add your actual screenshot, edit this README.md file, and replace the name of the example image file with the name of your screenshot image. Of course, you also need to add the image file to the repository so it is rendered properly by GitHub. 
 
 ![Example image](example.png)
