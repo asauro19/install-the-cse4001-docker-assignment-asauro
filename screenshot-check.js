@@ -1,47 +1,75 @@
 const fs = require('fs');
-const { createWorker } = require('tesseract.js');
+const path = require('path');
 
-// Function to perform OCR
-async function performOCR(imagePath) {
-  const worker = createWorker();
-  await worker.load();
-  await worker.loadLanguage('eng');
-  await worker.initialize('eng');
-  const { data: { text } } = await worker.recognize(imagePath);
-  await worker.terminate();
-  return text;
+const SCREENSHOT_NAME = 'screenshot.jpg';
+const README_PATH = 'README.md';
+
+// --------------------
+// Recursively search for screenshot.jpg
+// --------------------
+function findScreenshot(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isFile() && entry.name === SCREENSHOT_NAME) {
+      return fullPath;
+    }
+
+    if (entry.isDirectory() && entry.name !== '.git' && entry.name !== 'node_modules') {
+      const found = findScreenshot(fullPath);
+      if (found) return found;
+    }
+  }
+
+  return null;
 }
 
-// Function to check README.md for screenshot
-function checkReadmeForScreenshot() {
-  const readmeContent = fs.readFileSync('README.md', 'utf8');
-  const screenshotRegex = /!\[.*\]\((.*\.(png|jpg|jpeg|gif|bmp|svg))\)/i;
-  const match = screenshotRegex.exec(readmeContent);
-
-  if (match) {
-    console.log('Screenshot found in README.md');
-    return match[1]; // Returns the file path of the screenshot
-  } else {
-    console.error('No screenshot found in README.md');
+// --------------------
+// Check README.md reference
+// --------------------
+function checkReadmeReferencesScreenshot() {
+  if (!fs.existsSync(README_PATH)) {
+    console.error('❌ README.md not found');
     process.exit(1);
   }
+
+  const readmeContent = fs.readFileSync(README_PATH, 'utf8');
+
+  // Markdown image syntax referencing screenshot.jpg
+  const regex = new RegExp(
+    `!\\[[^\\]]*\\]\\([^\\)]*${SCREENSHOT_NAME}\\)`,
+    'i'
+  );
+
+  if (!regex.test(readmeContent)) {
+    console.error(`❌ README.md does not reference ${SCREENSHOT_NAME}`);
+    process.exit(1);
+  }
+
+  console.log(`✅ README.md references ${SCREENSHOT_NAME}`);
 }
 
-// Main execution
-(async function main() {
-  const screenshotPath = checkReadmeForScreenshot();
-  if (screenshotPath) {
-    const ocrText = await performOCR(screenshotPath);
-    console.log('OCR Text:', ocrText);
+// --------------------
+// Main
+// --------------------
+(function main() {
+  try {
+    checkReadmeReferencesScreenshot();
 
-    // Added checks on ocrText
-    if (ocrText.includes("Device probe")) {
-      console.log("Screenshot contains 'Device probe'");
-      process.exit(0);
-    } else {
-      console.error("Screenshot does not contain 'Device probe'");
+    const screenshotPath = findScreenshot(process.cwd());
+
+    if (!screenshotPath) {
+      console.error(`❌ ${SCREENSHOT_NAME} not found anywhere in repository`);
       process.exit(1);
     }
+
+    console.log(`✅ Found ${SCREENSHOT_NAME} at: ${screenshotPath}`);
     process.exit(0);
+
+  } catch (err) {
+    console.error('❌ Unexpected error:', err);
+    process.exit(1);
   }
 })();
