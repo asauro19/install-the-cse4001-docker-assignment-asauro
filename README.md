@@ -42,15 +42,6 @@ The goal is to quickly and clearly verify that the assignment tasks were complet
 ------
 
 ## Screenshots
-
-> **Replace the placeholder below with your own screenshot.**
-
-The image below is **only an example** demonstrating how to embed an image in Markdown.
- To include your actual screenshot:
-
-1. Replace the example image filename with your own screenshot filename.
-2. Ensure the image file is added to this repository so GitHub can render it correctly.
-
 ![Example image](Screenshot.jpeg)
 
 
